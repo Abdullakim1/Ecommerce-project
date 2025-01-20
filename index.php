@@ -187,5 +187,7 @@ $categories = get_all_categories();
             icon.classList.toggle('fa-chevron-down');
         });
     </script>
+    
+    <?php include 'footer.php'; ?>
 </body>
 </html>
