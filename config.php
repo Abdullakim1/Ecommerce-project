@@ -1,17 +1,13 @@
 <?php
-// Only start session if one hasn't been started already
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Include database configuration
 require_once 'db_config.php';
 
-// Create tables if they don't exist
 function create_tables() {
     global $conn;
     
-    // Categories table
     $sql = "CREATE TABLE IF NOT EXISTS categories (
         id INT AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(255) NOT NULL,
@@ -21,7 +17,6 @@ function create_tables() {
     )";
     $conn->query($sql);
     
-    // Products table
     $sql = "CREATE TABLE IF NOT EXISTS products (
         id INT AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(255) NOT NULL,
@@ -34,7 +29,6 @@ function create_tables() {
     )";
     $conn->query($sql);
     
-    // Users table
     $sql = "CREATE TABLE IF NOT EXISTS users (
         id INT AUTO_INCREMENT PRIMARY KEY,
         email VARCHAR(255) NOT NULL UNIQUE,
@@ -44,7 +38,6 @@ function create_tables() {
     )";
     $conn->query($sql);
     
-    // Cart table
     $sql = "CREATE TABLE IF NOT EXISTS cart (
         id INT AUTO_INCREMENT PRIMARY KEY,
         user_id INT NOT NULL,
@@ -57,23 +50,19 @@ function create_tables() {
     $conn->query($sql);
 }
 
-// Create tables
 create_tables();
 
-// Helper function to get database connection
 function getDB() {
     global $conn;
     return $conn;
 }
 
-// Initialize default admin if not exists
 $stmt = $conn->prepare("SELECT COUNT(*) as count FROM users WHERE is_admin = 1");
 $stmt->execute();
 $result = $stmt->get_result();
 $row = $result->fetch_assoc();
 
 if ($row['count'] == 0) {
-    // Create default admin account
     $password = password_hash('admin123', PASSWORD_DEFAULT);
     $stmt = $conn->prepare("INSERT INTO users (email, password, is_admin) VALUES (?, ?, 1)");
     $email = 'admin@luxurybrand.com';
@@ -81,7 +70,6 @@ if ($row['count'] == 0) {
     $stmt->execute();
 }
 
-// Initialize default categories if not exists
 $stmt = $conn->prepare("SELECT COUNT(*) as count FROM categories");
 $stmt->execute();
 $result = $stmt->get_result();

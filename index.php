@@ -6,7 +6,9 @@ require_once 'config.php';
 require_once 'auth.php';
 require_once 'products.php';
 
-$products = get_all_products();
+$category = isset($_GET['category']) ? $_GET['category'] : null;
+$products = get_all_products($category);
+$categories = get_all_categories();
 ?>
 
 <!DOCTYPE html>
@@ -20,7 +22,6 @@ $products = get_all_products();
     <link rel="stylesheet" href="static/css/style.css">
 </head>
 <body>
-    <!-- Navigation -->
     <nav class="navbar navbar-expand-lg sticky-top">
         <div class="container">
             <a class="navbar-brand" href="index.php">
@@ -34,6 +35,9 @@ $products = get_all_products();
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="#products">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#categories">Categories</a>
                     </li>
                     <?php if(is_logged_in()): ?>
                         <?php if(is_admin()): ?>
@@ -68,7 +72,6 @@ $products = get_all_products();
         </div>
     </nav>
 
-    <!-- Hero Section -->
     <section class="hero-section">
         <div class="container">
             <div class="hero-content">
@@ -84,7 +87,26 @@ $products = get_all_products();
         </div>
     </section>
 
-    <!-- Products Section -->
+    <section class="category-nav-section">
+        <div class="container">
+            <div class="category-nav">
+                <a href="index.php" class="category-link <?php echo !$category ? 'active' : ''; ?>">All Collections</a>
+                <?php foreach($categories as $cat): ?>
+                    <a href="index.php?category=<?php echo urlencode($cat['slug']); ?>" 
+                       class="category-link <?php echo $category === $cat['slug'] ? 'active' : ''; ?>">
+                        <?php echo htmlspecialchars($cat['name']); ?>
+                    </a>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </section>
+
+    <?php if($category): ?>
+        <h2 class="category-title">
+            <?php echo ucfirst($category); ?> Collection
+        </h2>
+    <?php endif; ?>
+
     <section class="products-section" id="products">
         <div class="container">
             <?php if(empty($products)): ?>
@@ -132,7 +154,6 @@ $products = get_all_products();
         </div>
     </section>
 
-    <!-- Chatbot -->
     <div class="chatbot">
         <div class="chatbot-header">
             <span>Customer Support</span>
@@ -153,7 +174,6 @@ $products = get_all_products();
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Chatbot Toggle
         document.querySelector('.chatbot-header').addEventListener('click', function() {
             document.querySelector('.chatbot').classList.toggle('open');
             const icon = this.querySelector('i');
@@ -161,7 +181,6 @@ $products = get_all_products();
             icon.classList.toggle('fa-chevron-down');
         });
 
-        // Chatbot Message Handling
         const chatInput = document.querySelector('.chat-input input');
         const chatButton = document.querySelector('.chat-input button');
         const chatMessages = document.querySelector('.chat-messages');
@@ -175,10 +194,8 @@ $products = get_all_products();
         }
 
         function handleUserMessage(message) {
-            // Add user message
             addMessage(message, true);
             
-            // Simple bot responses
             setTimeout(() => {
                 let response;
                 const lowerMessage = message.toLowerCase();
@@ -198,7 +215,6 @@ $products = get_all_products();
             }, 500);
         }
 
-        // Handle send button click
         chatButton.addEventListener('click', () => {
             const message = chatInput.value.trim();
             if (message) {
@@ -207,7 +223,6 @@ $products = get_all_products();
             }
         });
 
-        // Handle enter key
         chatInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
                 const message = chatInput.value.trim();

@@ -2,7 +2,6 @@
 session_start();
 require_once 'auth.php';
 
-// If user is already logged in, redirect to home page
 if (is_logged_in()) {
     header("Location: index.php");
     exit();
