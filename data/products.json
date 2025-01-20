@@ -1,0 +1,76 @@
+{
+    "products": [
+        {
+            "id": 1,
+            "name": "Classic Leather Briefcase",
+            "description": "Handcrafted Italian leather briefcase with gold-plated hardware and multiple compartments",
+            "price": 1299.99,
+            "image_url": "https://images.unsplash.com/photo-1524498250077-390f9e378fc0",
+            "category": "men",
+            "created_at": "2025-01-20 06:18:23"
+        },
+        {
+            "id": 2,
+            "name": "Silk Evening Gown",
+            "description": "Elegant silk evening gown with hand-sewn crystal embellishments",
+            "price": 2499.99,
+            "image_url": "https://images.unsplash.com/photo-1566174053879-31528523f8ae",
+            "category": "women",
+            "created_at": "2025-01-20 06:18:23"
+        },
+        {
+            "id": 3,
+            "name": "Swiss Chronograph Watch",
+            "description": "Limited edition Swiss-made chronograph with sapphire crystal and alligator strap",
+            "price": 8999.99,
+            "image_url": "https://images.unsplash.com/photo-1523170335258-f5ed11844a49",
+            "category": "men",
+            "created_at": "2025-01-20 06:18:23"
+        },
+        {
+            "id": 4,
+            "name": "Diamond Tennis Bracelet",
+            "description": "18k white gold tennis bracelet with 5 carats of VS clarity diamonds",
+            "price": 12999.99,
+            "image_url": "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338",
+            "category": "women",
+            "created_at": "2025-01-20 06:18:23"
+        },
+        {
+            "id": 5,
+            "name": "Cashmere Overcoat",
+            "description": "Pure cashmere overcoat with silk lining and horn buttons",
+            "price": 3499.99,
+            "image_url": "https://images.unsplash.com/photo-1544923246-77307dd654cb",
+            "category": "men",
+            "created_at": "2025-01-20 06:18:23"
+        },
+        {
+            "id": 6,
+            "name": "Designer Handbag",
+            "description": "Iconic designer handbag in premium calfskin with signature hardware",
+            "price": 4999.99,
+            "image_url": "https://images.unsplash.com/photo-1584917865442-de89df76afd3",
+            "category": "women",
+            "created_at": "2025-01-20 06:18:23"
+        },
+        {
+            "id": 7,
+            "name": "Italian Silk Tie",
+            "description": "Hand-rolled Italian silk tie with classic pattern",
+            "price": 299.99,
+            "image_url": "https://images.unsplash.com/photo-1589756823695-278bc923f962",
+            "category": "men",
+            "created_at": "2025-01-20 06:18:23"
+        },
+        {
+            "id": 8,
+            "name": "Pearl Necklace",
+            "description": "South Sea pearl necklace with diamond clasp in 18k gold",
+            "price": 5999.99,
+            "image_url": "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f",
+            "category": "women",
+            "created_at": "2025-01-20 06:18:23"
+        }
+    ]
+}
