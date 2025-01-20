@@ -30,16 +30,6 @@ try {
         )";
         $conn->query($sql);
 
-        // Categories table
-        $sql = "CREATE TABLE IF NOT EXISTS categories (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            name VARCHAR(100) NOT NULL,
-            slug VARCHAR(100) NOT NULL UNIQUE,
-            description TEXT,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        )";
-        $conn->query($sql);
-
         // Products table
         $sql = "CREATE TABLE IF NOT EXISTS products (
             id INT AUTO_INCREMENT PRIMARY KEY,
@@ -47,9 +37,7 @@ try {
             description TEXT,
             price DECIMAL(10,2) NOT NULL,
             image_url VARCHAR(255),
-            category_id INT,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (category_id) REFERENCES categories(id)
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )";
         $conn->query($sql);
 

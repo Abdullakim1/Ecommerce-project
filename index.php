@@ -6,9 +6,7 @@ require_once 'config.php';
 require_once 'auth.php';
 require_once 'products.php';
 
-$category = isset($_GET['category']) ? $_GET['category'] : null;
-$products = get_all_products($category);
-$categories = get_all_categories();
+$products = get_all_products();
 ?>
 
 <!DOCTYPE html>
@@ -36,9 +34,6 @@ $categories = get_all_categories();
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="#products">Products</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#categories">Categories</a>
                     </li>
                     <?php if(is_logged_in()): ?>
                         <?php if(is_admin()): ?>
@@ -88,27 +83,6 @@ $categories = get_all_categories();
             </div>
         </div>
     </section>
-
-    <!-- Category Navigation -->
-    <section class="category-nav-section">
-        <div class="container">
-            <div class="category-nav">
-                <a href="index.php" class="category-link <?php echo !$category ? 'active' : ''; ?>">All Collections</a>
-                <?php foreach($categories as $cat): ?>
-                    <a href="index.php?category=<?php echo urlencode($cat['slug']); ?>" 
-                       class="category-link <?php echo $category === $cat['slug'] ? 'active' : ''; ?>">
-                        <?php echo htmlspecialchars($cat['name']); ?>
-                    </a>
-                <?php endforeach; ?>
-            </div>
-        </div>
-    </section>
-
-    <?php if($category): ?>
-        <h2 class="category-title">
-            <?php echo ucfirst($category); ?> Collection
-        </h2>
-    <?php endif; ?>
 
     <!-- Products Section -->
     <section class="products-section" id="products">
@@ -185,6 +159,63 @@ $categories = get_all_categories();
             const icon = this.querySelector('i');
             icon.classList.toggle('fa-chevron-up');
             icon.classList.toggle('fa-chevron-down');
+        });
+
+        // Chatbot Message Handling
+        const chatInput = document.querySelector('.chat-input input');
+        const chatButton = document.querySelector('.chat-input button');
+        const chatMessages = document.querySelector('.chat-messages');
+
+        function addMessage(message, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : 'bot'}`;
+            messageDiv.textContent = message;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function handleUserMessage(message) {
+            // Add user message
+            addMessage(message, true);
+            
+            // Simple bot responses
+            setTimeout(() => {
+                let response;
+                const lowerMessage = message.toLowerCase();
+                
+                if (lowerMessage.includes('hello') || lowerMessage.includes('hi')) {
+                    response = "Hello! How can I assist you with our luxury collections today?";
+                } else if (lowerMessage.includes('price') || lowerMessage.includes('cost')) {
+                    response = "Our prices reflect the exceptional quality and craftsmanship of our pieces. For specific pricing, please browse our collections or contact our customer service.";
+                } else if (lowerMessage.includes('delivery') || lowerMessage.includes('shipping')) {
+                    response = "We offer worldwide shipping with special handling for our luxury items. Delivery times vary by location.";
+                } else if (lowerMessage.includes('return') || lowerMessage.includes('refund')) {
+                    response = "We have a 30-day return policy for all our items, ensuring your complete satisfaction.";
+                } else {
+                    response = "Thank you for your message. How else can I assist you with our luxury collections?";
+                }
+                addMessage(response);
+            }, 500);
+        }
+
+        // Handle send button click
+        chatButton.addEventListener('click', () => {
+            const message = chatInput.value.trim();
+            if (message) {
+                handleUserMessage(message);
+                chatInput.value = '';
+            }
+        });
+
+        // Handle enter key
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                const message = chatInput.value.trim();
+                if (message) {
+                    handleUserMessage(message);
+                    chatInput.value = '';
+                }
+            }
         });
     </script>
     
