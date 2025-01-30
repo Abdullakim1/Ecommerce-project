@@ -1,5 +1,5 @@
 <?php
-require_once 'db_config.php';
+require_once 'config.php';
 
 function get_all_products($category_slug = null) {
     global $conn;

@@ -1,4 +1,8 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 require_once 'config.php';
 
 function register($email, $password, $confirm_password) {
@@ -30,7 +34,6 @@ function register($email, $password, $confirm_password) {
         $_SESSION['user_id'] = $stmt->insert_id;
         $_SESSION['email'] = $email;
         $_SESSION['is_admin'] = false;
-        
         return ['success' => true, 'message' => 'Registration successful'];
     }
     
@@ -66,6 +69,12 @@ function login($email, $password) {
     return ['success' => true, 'message' => 'Login successful'];
 }
 
+function logout() {
+    session_unset();
+    session_destroy();
+    return ['success' => true, 'message' => 'Logout successful'];
+}
+
 function is_logged_in() {
     return isset($_SESSION['user_id']);
 }
@@ -74,16 +83,22 @@ function is_admin() {
     return isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === true;
 }
 
-function logout() {
-    session_destroy();
-    header('Location: login.php');
-    exit;
+function get_user() {
+    if (!is_logged_in()) {
+        return null;
+    }
+    
+    return [
+        'id' => $_SESSION['user_id'],
+        'email' => $_SESSION['email'],
+        'is_admin' => $_SESSION['is_admin']
+    ];
 }
 
 function create_default_admin() {
     global $conn;
     
-    $email = 'admin@azu.com';
+    $email = 'admin@azuluxury.com';
     $password = 'admin123';
     
     $stmt = $conn->prepare("SELECT id FROM users WHERE email = ?");

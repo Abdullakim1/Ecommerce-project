@@ -60,6 +60,15 @@ GRANT ALL PRIVILEGES ON luxury_ecommerce.* TO 'luxury_user'@'localhost';
 FLUSH PRIVILEGES;
 ```
 
+5. Database usage:
+
+mysql -u luxury_user -p
+password:luxury123
+
+show databases;
+use luxury_ecommerce;
+show tables;
+
 The application will automatically create all required tables on first access.
 
 ## Project Structure
@@ -127,6 +136,7 @@ ecommerce/
 ## Usage
 
 1. Start your web server and MySQL server
+   php -S localhost:8000
 
 2. Access the website:
    ```

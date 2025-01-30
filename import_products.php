@@ -2,7 +2,6 @@
 require_once "config.php";
 require_once "products.php";
 
-// Read JSON file
 $json_file = __DIR__ . '/data/products.json';
 if (!file_exists($json_file)) {
     die("Products JSON file not found!");
@@ -13,7 +12,6 @@ if (!$json_data || !isset($json_data['products'])) {
     die("Invalid JSON data!");
 }
 
-// First, make sure categories exist
 $categories = ['men', 'women'];
 foreach ($categories as $category) {
     $stmt = $conn->prepare("SELECT id FROM categories WHERE slug = ?");
@@ -30,12 +28,10 @@ foreach ($categories as $category) {
     }
 }
 
-// Import products
 $imported = 0;
 $errors = [];
 
 foreach ($json_data['products'] as $product) {
-    // Get category ID
     $stmt = $conn->prepare("SELECT id FROM categories WHERE slug = ?");
     $stmt->bind_param("s", $product['category']);
     $stmt->execute();
@@ -47,7 +43,6 @@ foreach ($json_data['products'] as $product) {
         continue;
     }
     
-    // Check if product already exists
     $stmt = $conn->prepare("SELECT id FROM products WHERE name = ?");
     $stmt->bind_param("s", $product['name']);
     $stmt->execute();
@@ -58,7 +53,6 @@ foreach ($json_data['products'] as $product) {
         continue;
     }
     
-    // Insert product
     $stmt = $conn->prepare("INSERT INTO products (name, description, price, image_url, category_id) VALUES (?, ?, ?, ?, ?)");
     $stmt->bind_param("ssdsi", 
         $product['name'],

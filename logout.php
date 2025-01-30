@@ -1,6 +1,6 @@
 <?php
 require_once 'auth.php';
-logout_user();
+logout();
 header('Location: login.php');
 exit;
 ?>
